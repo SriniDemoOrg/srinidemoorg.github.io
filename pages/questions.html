@@ -1,0 +1,11 @@
+---
+layout: default
+title: "Questions"
+permalink: "/questions/"
+---
+
+{% for question in site.questions %}
+      <li>
+        <a href="{{ question.url }}">{{ question.title }}</a>
+      </li>
+{% endfor %}
