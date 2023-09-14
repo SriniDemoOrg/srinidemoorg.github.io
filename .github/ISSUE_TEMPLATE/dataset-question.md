@@ -1,14 +1,19 @@
 ---
 name: Dataset Question
 about: Template for new Dataset question
-title: ''
+title: "[QUESTION]"
 labels: ''
 assignees: ''
 
 ---
 
-#Question <QUESTION TEXT>
+#Aditional Prompt
+
+#Answer
+<ANSWER TEXT>
 
 #Expert Links
+(#) Title - Link
 
 #Expert Notes
+Please remove this section and ensure no other content is placed in this field
