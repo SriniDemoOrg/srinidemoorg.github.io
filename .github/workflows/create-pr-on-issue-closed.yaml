@@ -1,0 +1,50 @@
+on:
+  issues:
+    types:
+      - closed
+
+jobs:
+  # This job runs a script
+  run-script:
+    # The type of runner that the job will run on
+    runs-on: ubuntu-latest
+
+    # Steps represent a sequence of tasks that will be executed as part of the job
+    steps:
+      # Checks out the repository under $GITHUB_WORKSPACE
+      - uses: actions/checkout@v2
+
+      # Runs a custom script using JavaScript and the GitHub API
+      - uses: actions/github-script@v5
+        with:
+          # The script to run
+          script: |
+            // Get the issue number from the context
+            const issue_number = context.issue.number;
+            // Get the issue title from the context
+            const issue_title = context.payload.issue.title;
+            // Get the issue body from the context
+            const issue_body = context.payload.issue.body;
+            // Create a markdown file with the same name as the issue number
+            // Write the issue title and body to the file
+            const file_name = `${issue_number}.md`;
+            const file_content = `# ${issue_title}\n${issue_body}`;
+            // Encode the file content in base64 format
+            const encoded_content = Buffer.from(file_content).toString('base64');
+            // Create a commit with the new file in a new branch
+            await github.repos.createOrUpdateFileContents({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              path: file_name,
+              message: `Create ${file_name} from issue #${issue_number}`,
+              content: encoded_content,
+              branch: `issue-${issue_number}`
+            });
+            // Create a pull request from the new branch to the default branch
+            await github.pulls.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: `Add ${file_name} from issue #${issue_number}`,
+              head: `issue-${issue_number}`,
+              base: 'main'
+            });
