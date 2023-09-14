@@ -15,7 +15,7 @@ jobs:
       - uses: actions/checkout@v2
 
       # Runs a custom script using JavaScript and the GitHub API
-      - uses: actions/github-script@v5
+      - uses: actions/github-script@v6
         with:
           # The script to run
           script: |
