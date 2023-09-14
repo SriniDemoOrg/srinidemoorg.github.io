@@ -1,7 +1,7 @@
 ---
 name: Dataset Question
 about: Template for new Dataset question
-title: "[QUESTION]"
+title: ''
 labels: ''
 assignees: ''
 
