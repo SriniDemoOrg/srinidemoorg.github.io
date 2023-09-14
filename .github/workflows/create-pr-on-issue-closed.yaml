@@ -32,7 +32,7 @@ jobs:
             // Encode the file content in base64 format
             const encoded_content = Buffer.from(file_content).toString('base64');
             // Create a commit with the new file in a new branch
-            await github.repos.createOrUpdateFileContents({
+            await github.rest.repos.createOrUpdateFileContents({
               owner: context.repo.owner,
               repo: context.repo.repo,
               path: file_name,
@@ -41,7 +41,7 @@ jobs:
               branch: `issue-${issue_number}`
             });
             // Create a pull request from the new branch to the default branch
-            await github.pulls.create({
+            await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
               title: `Add ${file_name} from issue #${issue_number}`,
