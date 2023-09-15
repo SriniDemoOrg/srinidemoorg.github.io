@@ -35,14 +35,14 @@ jobs:
             const {data: baseRef} = await github.rest.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'heads/gh-pages'
+              ref: 'refs/heads/gh-pages'
             });
 
             const baseSha = baseRef.object.sha;
 
             await github.rest.git.createRef({
-              owner,
-              repo,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
               ref: `refs/heads/issue-${issue_number}`,
               sha: baseSha,
             });
