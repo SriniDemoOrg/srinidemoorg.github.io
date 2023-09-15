@@ -35,7 +35,7 @@ jobs:
             const {data: baseRef} = await github.rest.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'refs/heads/gh-pages'
+              ref: 'heads/gh-pages'
             });
 
             const baseSha = baseRef.object.sha;
