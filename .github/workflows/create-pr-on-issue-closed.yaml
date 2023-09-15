@@ -31,22 +31,7 @@ jobs:
             const file_content = `# ${issue_title}\n${issue_body}`;
             // Encode the file content in base64 format
             const encoded_content = Buffer.from(file_content).toString('base64');
-
-            const {data: baseRef} = await github.rest.git.getRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: 'heads/gh-pages'
-            });
-
-            const baseSha = baseRef.object.sha;
-
-            await github.rest.git.createRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: `refs/heads/issue-${issue_number}`,
-              sha: baseSha,
-            });
-            
+          
             // Create a commit with the new file in a new branch
             await github.rest.repos.createOrUpdateFileContents({
               owner: context.repo.owner,
@@ -62,5 +47,5 @@ jobs:
               repo: context.repo.repo,
               title: `Add ${file_name} from issue #${issue_number}`,
               head: `issue-${issue_number}`,
-              base: 'main'
+              base: 'gh-pages'
             });
