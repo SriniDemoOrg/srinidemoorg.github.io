@@ -40,7 +40,7 @@ jobs:
 
             const baseSha = baseRef.object.sha;
 
-            await octokit.rest.git.createRef({
+            await github.rest.git.createRef({
               owner,
               repo,
               ref: `refs/heads/issue-${issue_number}`,
