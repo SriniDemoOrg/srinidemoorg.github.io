@@ -32,13 +32,20 @@ jobs:
             // Encode the file content in base64 format
             const encoded_content = Buffer.from(file_content).toString('base64');
 
-            branch = await github.rest.git.getRef({
+            const {data: baseRef} = await github.rest.git.getRef({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              ref: 'heads/gh-pages',
+              ref: 'heads/gh-pages'
             });
 
-            echo branch.object.sha;
+            const baseSha = baseRef.object.sha;
+
+            await octokit.rest.git.createRef({
+              owner,
+              repo,
+              ref: `refs/heads/issue-${issue_number}`,
+              sha: baseSha,
+            });
             
             // Create a commit with the new file in a new branch
             await github.rest.repos.createOrUpdateFileContents({
